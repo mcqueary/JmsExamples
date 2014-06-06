@@ -1,3 +1,4 @@
+package com.tibco.mcqueary.jms.samples;
 /* 
  * Copyright (c) TIBCO Software Inc. 
  * All rights reserved.

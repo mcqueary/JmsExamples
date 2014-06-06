@@ -1,3 +1,5 @@
+package com.tibco.mcqueary.jms.samples;
+
 import java.util.*;
 import javax.jms.*;
 import javax.naming.*;

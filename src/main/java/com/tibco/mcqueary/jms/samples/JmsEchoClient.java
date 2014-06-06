@@ -1,3 +1,4 @@
+package com.tibco.mcqueary.jms.samples;
 /* 
  * Copyright (c) TIBCO Software Inc. 
  * All rights reserved.
@@ -41,6 +42,7 @@
  *   -dest      <dest name>   Destination name. Default value is "queue.sample"
  *
  */
+
 
 import java.util.*;
 

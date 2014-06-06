@@ -1,0 +1,43 @@
+#!/bin/sh
+
+export PROGNAME=$0
+
+export KAAZING_HOME=/Users/larry/tibco/webmsgems/4.0
+export KAAZING_LIBDIR=${KAAZING_HOME}/lib/client/java
+export KAAZING_JARS="geronimo-jms_1.1_spec-1.1.1.jar com.kaazing.gateway.client.jar com.kaazing.gateway.jms.client.jar"
+for jar in $KAAZING_JARS
+do
+  export KAAZING_LIBS=${KAAZING_LIBDIR}/${jar}:${KAAZING_LIBS}
+done
+export KAAZING_LIBS=${KAAZING_HOME}/lib/geronimo-jms_1.1_spec-1.1.1.jar:${KAAZING_LIBS}
+
+export EMS_LIBDIR=/Users/larry/tibco/ems/8.1/lib
+export EMS_LIBS=`echo $EMS_LIBDIR/*.jar | tr " " ":"`
+
+usage()
+{
+  echo "Usage: $0 [ -ems | -twm ] [ other options ]"
+}
+
+if [ $# -gt 0 ]; then
+  case $1 in
+  	-ems )
+	  shift
+	  CMD="java -Dpropfile=tibems.jndi.properties -cp .:../bin:$EMS_LIBS $PROGNAME $*"
+	  echo Executing $CMD
+	  $CMD
+	  ;;
+	-twm )
+	  shift
+	  CMD="java -Dpropfile=kaazing.jndi.properties -cp .:../bin:$KAAZING_LIBS $PROGNAME $*"
+	  echo Executing $CMD
+	  $CMD
+          ;;
+        * )
+	  echo default case
+	  usage ;;
+  esac
+else
+  usage
+fi
+
