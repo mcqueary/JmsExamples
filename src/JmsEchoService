@@ -1,0 +1,41 @@
+#!/bin/sh
+
+export PROGNAME=$0
+
+export KAAZING_LIBDIR=/Users/larry/tibco/webmsgems/4.0/lib
+export KAAZING_LIBS=${KAAZING_LIBDIR}/geronimo-jms_1.1_spec-1.1.1.jar:${KAAZING_LIBDIR}/slf4j-api-1.5.2.jar:${KAAZING_LIBDIR}/slf4j-log4j12-1.5.2.jar:${KAAZING_LIBDIR}/log4j-1.2.14.jar:${KAAZING_LIBDIR}/client/java/com.kaazing.gateway.client.jar:${KAAZING_LIBDIR}/client/java/com.kaazing.gateway.jms.client.jar
+export KZ_ICF=com.kaazing.gateway.jms.client.JmsInitialContextFactory
+#export KZ_URL=ws://localhost:8001/jms
+
+export EMS_LIBDIR=/Users/larry/tibco/ems/8.1/lib
+export EMS_LIBS=`echo $EMS_LIBDIR/*.jar | tr " " ":"`
+export EMS_ICF=com.tibco.tibjms.naming.TibjmsInitialContextFactory
+#export EMS_URL=tibjmsnaming://localhost:7222
+
+usage()
+{
+  echo "Usage: $0 [ -ems | -twm ] [ other options ]"
+}
+
+if [ $# -gt 1 ]; then
+  case $1 in
+  	-ems )
+	  shift
+	  CMD="java -cp .:../bin:$EMS_LIBS $PROGNAME $*"
+	  echo Executing $CMD
+	  $CMD
+	  ;;
+	-twm )
+	  shift
+	  CMD="java -cp .:../bin:$KAAZING_LIBS $PROGNAME $*"
+	  echo Executing $CMD
+	  $CMD
+          ;;
+        * )
+	  echo default case
+	  usage ;;
+  esac
+else
+  usage
+fi
+
